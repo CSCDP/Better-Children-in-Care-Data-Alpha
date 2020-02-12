@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
-import './MyDropzone';
+import './Dashboard';
 import pyodideloader from "./pyodide";
-import MyDropzone from "./MyDropzone";
+import Dashboard from "./Dashboard";
 
 
 function App() {
@@ -21,7 +21,8 @@ function App() {
       <header className="App-header">
         { pyodide && (
             <>
-              <MyDropzone pyodide={pyodide} filetype="Header"/>
+              <Dashboard pyodide={pyodide} />
+
             </>
         )}
         { !pyodide && (

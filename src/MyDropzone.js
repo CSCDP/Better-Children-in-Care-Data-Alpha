@@ -8,8 +8,8 @@ const htmlToReactParser = new Parser();
 
 export default function MyDropzone({pyodide, filetype}) {
     const [readFile, setReadFile] = useState(undefined);
-    const [table, setTable] = useState(undefined);
-    const [recordtable, setRecordTable] = useState(undefined);
+    const [headerData, setHeaderData] = useState(undefined);
+    const [episodeData, setEpisodeData] = useState(undefined);
     const [childId, setChildId] = useState(undefined);
 
     useEffect(() => {
@@ -99,7 +99,7 @@ def read_file(file, buffer):
       lambda x: "<a href='#'>{}</a>".format(x)
     )
     print("Outputting results...")
-    return df[['CHILD', '_Errors']].to_html(escape=False)
+    return df[['CHILD', '_Errors']].to_json(), datatype
         `;
             pyodide.runPython(pythonScript);
             const readFile = pyodide.pyimport('read_file');
@@ -117,10 +117,10 @@ def read_file(file, buffer):
             reader.onload = () => {
                 // Do whatever you want with the file contents
                 const buffer = reader.result;
-                const htmlTable = readFile.readFile(file, buffer);
-
-                const reactElement = htmlToReactParser.parse(htmlTable);
-                setTable(reactElement);
+                service.parseFile(buffer);
+                // const htmlTable = readFile.readFile(file, buffer);
+                // const reactElement = htmlToReactParser.parse(htmlTable);
+                // setTable(reactElement);
             };
             reader.readAsArrayBuffer(file);
         })
@@ -142,12 +142,15 @@ def read_file(file, buffer):
             <div className="Results">
               <div className="Results-ErrorList" onClick={(e) => {
                 setChildId(e.target.innerText);
+                setR
                 //setRecordTable(childId);
               }}>
                 { table && (table)}
               </div>
               <div className="Results-Record">
                 { recordtable && (recordtable)}
+                <Record childId={childId}/>
+                <Episodes childId={childId} />
               </div>
             </div>
         </>
