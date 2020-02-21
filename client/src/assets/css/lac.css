@@ -1,0 +1,22 @@
+body {
+    background-color: #5c87b3;
+}
+#fileUploadContainer {
+    background-color: white;
+    height: 80%;
+}
+.menu {
+
+}
+.menuitem {
+    background-color: #e6eefa;
+    margin: 0.2em;
+    color: #7492c1;
+    text-align: center;
+    display: inline-block;
+    width: 150px;
+}
+
+input {
+    display: block;
+}
