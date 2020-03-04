@@ -5,6 +5,12 @@ import pyodideloader from "./pyodide";
 import Dashboard from "./Dashboard";
 
 
+
+window.registerPyodide = (pyodide) => {
+
+}
+
+
 function App() {
   const [pyodide, setPyodide] = useState();
 

@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 # React / Pyodide example
 
 This is just a quick `create-react-app` example of
@@ -74,3 +75,10 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
 >>>>>>> Initialize project using Create React App
+=======
+# React / Pyodide example
+
+This is just a quick `create-react-app` example of 
+how to call [pyodide](https://github.com/iodide-project/pyodide)
+from a react app.
+>>>>>>> Add pyodide
