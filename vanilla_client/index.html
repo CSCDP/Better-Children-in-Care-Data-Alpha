@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <script>
+      function loadModules() {
+        console.log("loading...");
+        pyodide.loadPackage(['numpy', 'pandas', 'xlrd']).then(() => {
+          pyodide.runPython('import csv');
+          pyodide.runPython('from js import window');
+          document.getElementById('loader').style.visibility = 'hidden';
+          console.log("loading complete!");
+        });
+      }
+    </script>
+    <script src="pyodide_dev.js"></script>
+    <style>
+
+      body {
+          background-color: #5c87b3;
+      }
+
+      #loader {
+        width:100%;
+        height:100%;
+        top:0px;
+        left:0px;
+        font-size:3em;
+        position:absolute;
+        background-color: #DDDDDD;
+        text-align: center;
+        vertical-align:middle;
+      }
+
+      .resultscontainer {
+        background-color:white;
+        display:block;
+        margin-top:1em;
+        padding:1em;z1
+      }
+
+      .resultstitle {
+        font-size:1.2em;
+        font-weight:bold;
+      }
+
+      .results {
+        display:block;
+      }
+
+      .menuitem {
+        background-color: #e6eefa;
+        margin-right: 0.2em;
+        margin-bottom: 0.2em;
+        color: #7492c1;
+        text-align: center;
+        display: inline-block;
+        width: 150px;
+      }
+
+      .filegroup {
+        padding:1em;
+        display: inline-block;
+        vertical-align: top;
+      }
+
+      .primarytitle {
+        display:block;
+        font-size:1.2em;
+        font-weight:bold;
+      }
+
+      .fileinputline {
+        display:block;
+
+      }
+
+      div.primaryfile {
+        display:inline-block;
+        font-size: 1em;
+        width:150px;
+
+      }
+      input.primaryfile {
+        display:inline;
+        font-size: 1em;
+      }
+
+      div.secondaryfile {
+        display:inline-block;
+        font-size: 1em;
+        width:150px;
+
+      }
+      input.secondaryfile {
+        display:inline;
+        font-size: 1em;
+      }
+
+      .maincontainer {
+        background-color: white;
+      }
+
+    </style>
+  </head>
+  <body>
+    <noscript>
+      <strong>We're sorry but this site doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript>
+
+    <div>
+      <div id="menubar">
+        <div class='menuitem'>CSV Files</div>
+        <div class='menuitem'>XML Files</div>
+      </div>
+      <div id="csvfiles" class='maincontainer'>
+        <!-- File Group -->
+        <div class="filegroup">
+          <div class='primarytitle'>Primary Files</div>
+          <div class='fileinputline'>
+            <div class='primaryfile'>Headers</div>
+            <input class='primaryfile' type="file" onchange="window.loadfile(this.files, 'Header')" />
+          </div>
+          <div class='fileinputline'>
+            <div class='primaryfile'>Episodes</div>
+            <input class='primaryfile' type="file" onchange="window.loadfile(this.files, 'Episodes')" />
+          </div>
+          <div class='fileinputline'>
+            <div class='primaryfile'>UASC</div>
+            <input class='primaryfile' type="file" onchange="window.loadfile(this.files, 'UASC')" />
+          </div>
+        </div>
+        <!-- File Group End -->
+
+        <!-- File Group Start -->
+        <div class="filegroup">
+          <div class='primarytitle'>Supporting Files</div>
+          <div class='fileinputline'>
+            <div class='secondaryfile'>?</div>
+            <input class='secondaryfile' type="file" onchange="window.loadfile(this.files, 'Header')" />
+          </div>
+          <div class='fileinputline'>
+            <div class='secondaryfile'>?</div>
+            <input class='secondaryfile' type="file" onchange="window.loadfile(this.files, 'Header')" />
+          </div>
+          <div class='fileinputline'>
+            <div class='secondaryfile'>?</div>
+            <input class='secondaryfile' type="file" onchange="window.loadfile(this.files, 'Header')" />
+          </div>
+          <div class='fileinputline'>
+            <div class='secondaryfile'>?</div>
+            <input class='secondaryfile' type="file" onchange="window.loadfile(this.files, 'Header')" />
+          </div>
+          <div class='fileinputline'>
+            <div class='secondaryfile'>?</div>
+            <input class='secondaryfile' type="file" onchange="window.loadfile(this.files, 'Header')" />
+          </div>
+          <div class='fileinputline'>
+            <div class='secondaryfile'>?</div>
+            <input class='secondaryfile' type="file" onchange="window.loadfile(this.files, 'Header')" />
+          </div>
+          <div class='fileinputline'>
+            <div class='secondaryfile'>?</div>
+            <input class='secondaryfile' type="file" onchange="window.loadfile(this.files, 'Header')" />
+          </div>
+        </div>
+        <!-- File Group End -->
+      </div>
+    </div>
+
+    <div class='resultscontainer'>
+      <div class='resultstitle'>
+      Results
+      </div>
+      <div class='results' id="results">
+        These are where the errors go!
+      </div>
+    </div>
+    </div>
+
+    <div id="loader">Loading...
+    <!-- built files will be auto injected -->
+    <script>
+      function loadFileToDataframe(url, type) {
+        pyodide.runPython("import pandas as pd");
+        pyodide.runPython("from js import window");
+        //pyodide.runPython("from io import StringIO");
+        //pyodide.runPython(type+"contents = window.filedoc");
+        //pyodide.runPython(type+"str = StringIO("+type+"contents)");
+        //pyodide.runPython(type+"df = pd.read_csv("+type+"str)");
+        pyodide.runPython(type+"df = pd.read_csv('"+url+"')");
+        pyodide.runPython('print('+type+'df)');
+      }
+
+      window.loadfile = async (e, type) => {
+        file = e[0];
+        console.log("Loaded file", file);
+        const url = URL.createObjectURL(file);
+        console.log(url);
+        loadFileToDataframe(url, type)
+        /*reader = new FileReader()
+        reader.onload = async function (e) {
+          console.log("File loaded");
+          window.filedoc = e.target.result;
+          loadFileToDataframe(type);
+        }
+        reader.readAsText(file)
+        //reader.readAsArrayBuffer(file);
+        window.filereader = reader;*/
+      }
+    </script>
+  </body>
+</html>

@@ -1,4 +1,0 @@
-
-
-def checkHeaders():
-    print("Hey!")
