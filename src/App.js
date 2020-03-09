@@ -21,7 +21,7 @@ function App() {
       <header className="App-header">
         { pyodide && (
             <>
-              <MyDropzone pyodide={pyodide}/>
+              <MyDropzone pyodide={pyodide} filetype="Header"/>
             </>
         )}
         { !pyodide && (

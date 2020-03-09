@@ -1,12 +1,16 @@
 import React, {useCallback, useState, useEffect} from 'react'
 import {useDropzone} from 'react-dropzone'
 import { Parser } from 'html-to-react'
+//import './Record';
+//import Record from "./Record";
 
 const htmlToReactParser = new Parser();
 
-export default function MyDropzone({pyodide}) {
+export default function MyDropzone({pyodide, filetype}) {
     const [readFile, setReadFile] = useState(undefined);
     const [table, setTable] = useState(undefined);
+    const [recordtable, setRecordTable] = useState(undefined);
+    const [childId, setChildId] = useState(undefined);
 
     useEffect(() => {
         pyodide.loadPackage(['pandas','xlrd']).then(() => {
@@ -14,14 +18,88 @@ export default function MyDropzone({pyodide}) {
 import pandas as pd
 import io
 
+headercols = {
+  'CHILD',
+  'SEX',
+  'DOB',
+  'ETHNIC',
+  'UPN',
+  'MOTHER',
+  'MC_DOB'
+}
+episodecols = {
+  'CHILD',
+  'DECOM',
+  'RNE',
+  'LS',
+  'CIN',
+  'PLACE',
+  'PLACE_PROVIDER',
+  'DEC',
+  'REC',
+  'REASON_PLACE_CHANGE',
+  'HOME_POST',
+  'PL_POST',
+  'URN'
+}
+
+def checkForNull(df, col):
+  df.loc[df[col].isnull(), '_Errors'] = True
+  return df
+
+def checkPostCode(df, col):
+  postcoderegex = r'([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9][A-Za-z]?))))\s?[0-9][A-Za-z]{2})'
+  slicedf = df[col].str.contains(postcoderegex)
+  slicedf = slicedf.fillna(False)
+  df.loc[slicedf == False, '_Errors'] = True
+  return df
+
+def runHeaderTests(df):
+  df = checkForNull(df, "CHILD")
+  df = checkForNull(df, "UPN")
+  return df
+
+def runEpisodeTests(df):
+  df = checkForNull(df, "CHILD")
+  df = checkForNull(df, "URN")
+  #df = checkPostCode(df, "HOME_POST")
+  #df = checkPostCode(df, "PL_POST")
+  return df
+
+def detectType(df):
+  if set(df.columns) == headercols:
+    return "Headers"
+  elif set(df.columns) == episodecols:
+    return "Episodes"
+  else:
+    return "Unknown"
+
 def read_file(file, buffer):
     data = io.BytesIO(buffer.tobytes())
+
+    print("Determining File Type...")
     if "xls" in file.name:
         df = pd.read_excel(data)
-    else: 
+    else:
         df = pd.read_csv(data)
-        
-    return df.to_html()
+
+    print("Detecting Data Type...")
+    datatype = detectType(df)
+
+    df['_Errors'] = False
+
+    print("Running Tests...")
+    if datatype == "Headers":
+      df = runHeaderTests(df)
+    elif datatype == "Episodes":
+      df = runEpisodeTests(df)
+
+    print("Formatting results...")
+    df['CHILD'] = df["CHILD"].apply(
+      lambda x: "<a href='#'>{}</a>".format(x)
+    )
+    print("Outputting results...")
+    return df[['CHILD', '_Errors']].to_html(escape=False)
         `;
             pyodide.runPython(pythonScript);
             const readFile = pyodide.pyimport('read_file');
@@ -40,6 +118,7 @@ def read_file(file, buffer):
                 // Do whatever you want with the file contents
                 const buffer = reader.result;
                 const htmlTable = readFile.readFile(file, buffer);
+
                 const reactElement = htmlToReactParser.parse(htmlTable);
                 setTable(reactElement);
             };
@@ -57,10 +136,20 @@ def read_file(file, buffer):
             {readFile && (
             <div className="App-dropzone" {...getRootProps()}>
                 <input {...getInputProps()} />
-                <p>Drag 'n' drop some files here, or click to select files</p>
+                <p>Drag 'n' drop {filetype} file here, or click to select</p>
             </div>
             )}
-            { table && (table)}
+            <div className="Results">
+              <div className="Results-ErrorList" onClick={(e) => {
+                setChildId(e.target.innerText);
+                //setRecordTable(childId);
+              }}>
+                { table && (table)}
+              </div>
+              <div className="Results-Record">
+                { recordtable && (recordtable)}
+              </div>
+            </div>
         </>
     )
 }

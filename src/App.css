@@ -20,3 +20,15 @@
   opacity: .5;
   padding: 10px;
 }
+
+.Results-Record {
+  display: inline-block;
+  vertical-align:top;
+}
+
+.Results-ErrorList {
+  display: inline-block;
+  overflow: auto;
+  max-height: 75vh;
+  width:250px;
+}
