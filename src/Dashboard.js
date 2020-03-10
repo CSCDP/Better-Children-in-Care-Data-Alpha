@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import './App.css';
 import './MyDropzone';
 import pyodideloader from "./pyodide";
-import MyDropZone from "./MyDropzone";
+import MyDropzone from "./MyDropzone";
 
 
-function App() {
+function App({pyodide}) {
 
   return (
 
@@ -14,7 +14,6 @@ function App() {
             <MyDropzone pyodide={pyodide} />
           </>
         </div>
-      </>
   );
 }
 

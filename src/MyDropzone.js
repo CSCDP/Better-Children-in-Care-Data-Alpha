@@ -6,7 +6,7 @@ import { Parser } from 'html-to-react'
 
 const htmlToReactParser = new Parser();
 
-export default function MyDropzone({pyodide, filetype}) {
+export default function MyDropzone({pyodide}) {
     const [readFile, setReadFile] = useState(undefined);
     const [headerData, setHeaderData] = useState(undefined);
     const [episodeData, setEpisodeData] = useState(undefined);
@@ -94,10 +94,10 @@ def read_file(file, buffer):
     elif datatype == "Episodes":
       df = runEpisodeTests(df)
 
-    print("Formatting results...")
+    '''print("Formatting results...")
     df['CHILD'] = df["CHILD"].apply(
       lambda x: "<a href='#'>{}</a>".format(x)
-    )
+    )'''
     print("Outputting results...")
     return df[['CHILD', '_Errors']].to_json(), datatype
         `;
@@ -117,7 +117,14 @@ def read_file(file, buffer):
             reader.onload = () => {
                 // Do whatever you want with the file contents
                 const buffer = reader.result;
-                service.parseFile(buffer);
+                const filedata = readFile.readFile(file, buffer);
+                if (filedata[1] == "Headers") {
+                  setHeaderData(filedata[0])
+                } if (filedata[1] == "Episodes") {
+                  setEpisodeData(filedata[0])
+                }
+                console.log(filedata)
+                //service.parseFile(buffer);
                 // const htmlTable = readFile.readFile(file, buffer);
                 // const reactElement = htmlToReactParser.parse(htmlTable);
                 // setTable(reactElement);
@@ -134,25 +141,26 @@ def read_file(file, buffer):
                 <div>Loading Pandas....</div>
             )}
             {readFile && (
-            <div className="App-dropzone" {...getRootProps()}>
-                <input {...getInputProps()} />
-                <p>Drag 'n' drop {filetype} file here, or click to select</p>
+            <div>
+              <div className="App-dropzone" {...getRootProps()}>
+                  <input {...getInputProps()} />
+                  <p>Drag 'n' drop files here, or click to select</p>
+              </div>
+              <div className="FileUploadProgress">
+                <div>
+                  {headerData ? <p>Header Data Loaded</p>: <p>Still need to load Header Data</p>}
+                </div>
+
+                <div>
+                  {episodeData ? <p>Episode Data Loaded</p>: <p>Still need to load Episode Data</p>}
+                </div>
+
+                <div>
+                  {episodeData & headerData ? <p>All set!</p>: <p>Need more!</p>}
+                </div>
+              </div>
             </div>
             )}
-            <div className="Results">
-              <div className="Results-ErrorList" onClick={(e) => {
-                setChildId(e.target.innerText);
-                setR
-                //setRecordTable(childId);
-              }}>
-                { table && (table)}
-              </div>
-              <div className="Results-Record">
-                { recordtable && (recordtable)}
-                <Record childId={childId}/>
-                <Episodes childId={childId} />
-              </div>
-            </div>
         </>
     )
 }
