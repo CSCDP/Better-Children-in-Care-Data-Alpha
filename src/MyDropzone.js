@@ -156,7 +156,7 @@ def read_file(file, buffer):
                 </div>
 
                 <div>
-                  {episodeData & headerData ? <p>All set!</p>: <p>Need more!</p>}
+                  {episodeData & headerData ? <p>All set!</p>:<button>Continue</button>}
                 </div>
               </div>
             </div>
