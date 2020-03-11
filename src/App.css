@@ -13,12 +13,42 @@
   color: white;
 }
 
+.NoChildErrors {
+  background-color: #006622;
+}
+
+.ChildErrors {
+  background-color: #662200;
+}
+
+.childData {
+  display: inline-block;
+  vertical-align: top;
+}
+
 .App-dropzone {
   cursor: copy;
   border: 2px dashed black;
   background: red;
   opacity: .5;
   padding: 10px;
+}
+
+.childList {
+  display: inline-block;
+  max-height: 150vh;
+  overflow:auto;
+  width:200px;
+}
+
+.dataDisplay {
+  display: inline-block;;
+}
+
+.dashboard {
+  text-align:left;
+  display: inline-block;
+  vertical-align:top;
 }
 
 .Results-Record {

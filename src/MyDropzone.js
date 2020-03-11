@@ -6,11 +6,7 @@ import { Parser } from 'html-to-react'
 
 const htmlToReactParser = new Parser();
 
-export default function MyDropzone({pyodide}) {
-    const [readFile, setReadFile] = useState(undefined);
-    const [headerData, setHeaderData] = useState(undefined);
-    const [episodeData, setEpisodeData] = useState(undefined);
-    const [childId, setChildId] = useState(undefined);
+export default function MyDropzone({pyodide, setReadFile, readFile, setHeaderData, headerData, setEpisodeData, episodeData}) {
 
     useEffect(() => {
         pyodide.loadPackage(['pandas','xlrd']).then(() => {
@@ -99,7 +95,7 @@ def read_file(file, buffer):
       lambda x: "<a href='#'>{}</a>".format(x)
     )'''
     print("Outputting results...")
-    return df[['CHILD', '_Errors']].to_json(), datatype
+    return df.to_json(), datatype
         `;
             pyodide.runPython(pythonScript);
             const readFile = pyodide.pyimport('read_file');
@@ -119,11 +115,10 @@ def read_file(file, buffer):
                 const buffer = reader.result;
                 const filedata = readFile.readFile(file, buffer);
                 if (filedata[1] == "Headers") {
-                  setHeaderData(filedata[0])
+                  setHeaderData(JSON.parse(filedata[0]))
                 } if (filedata[1] == "Episodes") {
-                  setEpisodeData(filedata[0])
+                  setEpisodeData(JSON.parse(filedata[0]))
                 }
-                console.log(filedata)
                 //service.parseFile(buffer);
                 // const htmlTable = readFile.readFile(file, buffer);
                 // const reactElement = htmlToReactParser.parse(htmlTable);
@@ -153,10 +148,6 @@ def read_file(file, buffer):
 
                 <div>
                   {episodeData ? <p>Episode Data Loaded</p>: <p>Still need to load Episode Data</p>}
-                </div>
-
-                <div>
-                  {episodeData & headerData ? <p>All set!</p>:<button>Continue</button>}
                 </div>
               </div>
             </div>
