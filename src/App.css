@@ -21,9 +21,21 @@
   background-color: #662200;
 }
 
+.sectionTitle {
+  font-size:1.2em;
+  border-radius:4px;
+  background-color: #223366;
+}
+
+.episodeList table {
+  padding:1em;
+  border:1px solid white;
+}
+
 .childData {
   display: inline-block;
   vertical-align: top;
+  width: 50%;
 }
 
 .App-dropzone {
@@ -36,7 +48,7 @@
 
 .childList {
   display: inline-block;
-  max-height: 150vh;
+  max-height: 75vh;
   overflow:auto;
   width:200px;
 }

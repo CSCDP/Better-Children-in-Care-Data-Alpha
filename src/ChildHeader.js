@@ -3,12 +3,14 @@ import './App.css';
 
 
 function ChildHeader({headerData, childId, headerRecordId}) {
+  //I should probably pass these in the parent component instead of calculating them here.
   const dob = headerData.DOB[headerRecordId];
   const sex = headerData.SEX[headerRecordId] == 1 ? "M": "F";
   const eth = headerData.ETHNIC[headerRecordId];
 
   return (
       <div className="childHeader">
+        <div className="sectionTitle">Child's Header</div>
         <table>
           <>
           <tbody>

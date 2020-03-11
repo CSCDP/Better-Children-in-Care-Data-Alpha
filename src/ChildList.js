@@ -7,8 +7,6 @@ function ChildList({headerData, setChildId, childId, setHeaderRecordId, headerRe
 
   function selectChild(idx) {
     let cid = headerData.CHILD[idx];
-    console.log(cid);
-    console.log(idx);
     setChildId(cid);
     setHeaderRecordId(idx);
   }

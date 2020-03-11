@@ -1,8 +1,6 @@
 import React, {useCallback, useState, useEffect} from 'react'
 import {useDropzone} from 'react-dropzone'
 import { Parser } from 'html-to-react'
-//import './Record';
-//import Record from "./Record";
 
 const htmlToReactParser = new Parser();
 
