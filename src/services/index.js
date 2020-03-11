@@ -9,7 +9,6 @@ const loadFile = file => {
     reader.onload = () => {
       const buffer = reader.result;
       restService.readFile(file, buffer).then(result => {
-        console.log(file.name, result);
         resolve(result);
       });
     };
@@ -19,11 +18,11 @@ const loadFile = file => {
 
 const loadFiles = async (files) => {
   const items = await Promise.all(files.map(file => loadFile(file)));
-  console.log("ITEMS", items);
-  let result = {};
+  const result = {};
   items.forEach(item => {
-    result = {...result, ...item}
+    result[item.type] = item.data;
   });
+  console.log("ITEMS", result);
   return result;
 }
 
