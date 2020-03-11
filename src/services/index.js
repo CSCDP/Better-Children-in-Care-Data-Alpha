@@ -1,31 +1,42 @@
-import restService from "./restService";
+import RestService from "./restService";
+import PyodideService from "./pyodideService";
 
-const loadFile = file => {
-  console.log(file);
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onabort = () => console.log('file reading was aborted');
-    reader.onerror = () => console.log('file reading has failed');
-    reader.onload = () => {
-      const buffer = reader.result;
-      restService.readFile(file, buffer).then(result => {
-        resolve(result);
-      });
-    };
-    reader.readAsArrayBuffer(file);
-  });
-};
+const urlParams = new URLSearchParams(window.location.search);
 
-const loadFiles = async (files) => {
-  const items = await Promise.all(files.map(file => loadFile(file)));
-  const result = {};
-  items.forEach(item => {
-    result[item.type] = item.data;
-  });
-  console.log("ITEMS", result);
-  return result;
+export default class Service {
+  constructor() {
+    this.service = ( urlParams.has('rest') ? new RestService() : new PyodideService());
+  };
+
+  onReady = async () => {
+    await this.service.onReady();
+  };
+
+  loadFile = file => {
+    console.log(file);
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onabort = () => console.log('file reading was aborted');
+      reader.onerror = () => console.log('file reading has failed');
+      reader.onload = () => {
+        const buffer = reader.result;
+        this.service.readFile(file, buffer).then(result => {
+          resolve(result);
+        });
+      };
+      reader.readAsArrayBuffer(file);
+    });
+  };
+
+  loadFiles = async (files) => {
+    const items = await Promise.all(files.map(file => this.loadFile(file)));
+    const result = {};
+    items.forEach(item => {
+      result[item.type] = item.data;
+    });
+    console.log("ITEMS", result);
+    return result;
+  };
+
 }
 
-export default {
-  loadFiles,
-}

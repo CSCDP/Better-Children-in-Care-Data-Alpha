@@ -57,6 +57,11 @@ def detectType(df):
   else:
     return "Unknown"
 
+
+def read_file_from_buffer(buffer):
+    return read_file(buffer.tobytes())
+
+
 def read_file(data):
     data = io.BytesIO(data)
 

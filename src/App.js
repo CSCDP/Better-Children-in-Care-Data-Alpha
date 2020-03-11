@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
-// import pyodideloader from "./pyodide";
 import Dashboard from "./components/Dashboard";
-import service from "./services";
+import Service from "./services";
+
+const serviceContainer = new Service();
 
 function App() {
-  // const [pyodide, setPyodide] = useState();
+  const [service, setService] = useState(undefined);
 
   // useEffect(() => {
   //   pyodideloader().then((p) => {
@@ -15,10 +16,25 @@ function App() {
   //   });
   // });
 
+    useEffect( () => {
+        const loadService = async () => {
+            await serviceContainer.onReady();
+            setService(serviceContainer);
+        }
+        loadService();
+    });
+
+
+
   return (
     <div className="App">
       <header className="App-header">
-          <Dashboard service={service} />
+          { service && (
+            <Dashboard service={service} />
+          )}
+          { !service && (
+              <h1>Loading python</h1>
+          )}
       </header>
     </div>
   );

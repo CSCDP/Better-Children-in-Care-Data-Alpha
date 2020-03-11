@@ -6,9 +6,6 @@ app = Flask(__name__)
 @app.route('/api/readfile', methods=["POST"])
 def send_file():
     data = read_file(request.data)
-
-    print("SENDING DATA")
-    print(data)
     data = jsonify(data)
     return data
 
