@@ -7,16 +7,7 @@ const serviceContainer = new Service();
 
 function App() {
   const [service, setService] = useState(undefined);
-
-  // useEffect(() => {
-  //   pyodideloader().then((p) => {
-  //     setPyodide(p);
-  //   }).catch((e) => {
-  //     console.log("OH NO");
-  //   });
-  // });
-
-    useEffect( () => {
+   useEffect( () => {
         const loadService = async () => {
             await serviceContainer.onReady();
             setService(serviceContainer);

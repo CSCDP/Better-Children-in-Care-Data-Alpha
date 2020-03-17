@@ -21,56 +21,18 @@
   background-color: #662200;
 }
 
-.sectionTitle {
-  font-size:1.2em;
-  border-radius:4px;
-  background-color: #223366;
-}
-
-.episodeList table {
-  padding:1em;
-  border:1px solid white;
-}
-
-.childData {
-  display: inline-block;
-  vertical-align: top;
-  width: 50%;
-}
-
 .App-dropzone {
+  text-align: center;
   cursor: copy;
   border: 2px dashed black;
-  background: red;
+  color: white;
+  background: #30333f;
   opacity: .5;
   padding: 10px;
+  border-radius: 20px;
 }
 
-.childList {
-  display: inline-block;
-  max-height: 75vh;
-  overflow:auto;
-  width:200px;
-}
-
-.dataDisplay {
-  display: inline-block;;
-}
-
-.dashboard {
-  text-align:left;
-  display: inline-block;
-  vertical-align:top;
-}
-
-.Results-Record {
-  display: inline-block;
-  vertical-align:top;
-}
-
-.Results-ErrorList {
-  display: inline-block;
-  overflow: auto;
-  max-height: 75vh;
-  width:250px;
+.App-dropzone p {
+  color: white;
+  font-weight: bold;
 }

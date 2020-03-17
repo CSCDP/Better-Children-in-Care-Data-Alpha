@@ -1,52 +1,75 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import '../App.css';
+import { makeStyles } from '@material-ui/core/styles';
 
 
-function ChildEpisodes({episodeData, childId}) {
-
-  /* I know, this is horrible, I should be passing only the records I need
-  and this should have been filtered out before.  Fix later */
-
-  var episodes = [];
-  for (var key in episodeData.CHILD) {
-    if (episodeData.CHILD[key] == childId) {
-        console.log("Found Episode for Child:")
-        console.log(episodeData);
-        episodes.push(
-          <table>
-            <>
-            <tbody>
-            <tr>
-              <th>DCOM:</th><td>{episodeData.DECOM[key]}</td>
-              <th>RNE:</th><td>{episodeData.RNE[key]}</td>
-            </tr><tr>
-              <th>LS:</th><td>{episodeData.LS[key]}</td>
-              <th>CIN:</th><td>{episodeData.CIN[key]}</td>
-            </tr><tr>
-              <th>PLACE:</th><td>{episodeData.PLACE[key]}</td>
-              <th>PLACE_PROVIDER:</th><td>{episodeData.PLACE_PROVIDER[key]}</td>
-            </tr><tr>
-              <th>DEC:</th><td>{episodeData.DEC[key]}</td>
-              <th>REC:</th><td>{episodeData.REC[key]}</td>
-            </tr><tr>
-              <th>REASON_PLACE_CHANGE:</th><td>{episodeData.REASON_PLACE_CHANGE[key]}</td>
-              <th>URN:</th><td>{episodeData.URN[key]}</td>
-            </tr><tr>
-              <th>HOME_POST:</th><td>{episodeData.HOME_POST[key]}</td>
-              <th>PL_POST:</th><td>{episodeData.PL_POST[key]}</td>
-            </tr>
-            </tbody>
-            </>
-          </table>
-        )
-    }
-  }
-
+function ChildEpisodes({data}) {
+    const useStyles = makeStyles(theme => ({
+        root: {
+            width: '100%',
+            color: theme.palette.text.secondary,
+            fontSize: '0.8em',
+            overflow: 'auto',
+            maxHeight: '80vh',
+        },
+        sectionTitle: {
+            maxWidth: 360,
+            fontWeight: "bold",
+            color: theme.palette.text.secondary,
+            borderBottomColor: theme.palette.text.secondary,
+            borderBottomWidth: 1,
+            borderBottomStyle: 'solid',
+            textAlign: 'left',
+        },
+        tableContainer: {
+            margin: 5,
+        }
+    }));
+    const classes = useStyles();
   return (
       <div className="childEpisodes">
-        <div className="sectionTitle">Child's Episodes</div>
-        <div className="episodeList">
-          {episodes}
+        <div className={classes.sectionTitle}>Episodes</div>
+        <div className={classes.tableContainer}>
+            { (data[0]) && (
+                <table className={classes.root} border={1}>
+                    <thead>
+                        <tr>
+                            <th>Row</th>
+                            <th>Start Date</th>
+                            <th>LS</th>
+                            <th>CIN</th>
+                            <th>PL</th>
+                            <th>PL Prov</th>
+                            <th>PL Dist</th>
+                            <th>PL LA</th>
+                            <th>PL Loc</th>
+                            <th>URN</th>
+                            <th>PL Change Reason</th>
+                            <th>End Date</th>
+                            <th>REC</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {data.map(episode => (
+                        <tr>
+                            <td>?</td>
+                            <td>{episode.DECOM}</td>
+                            <td>{episode.LS}</td>
+                            <td>{episode.CIN}</td>
+                            <td>{episode.PLACE}</td>
+                            <td>{episode.PLACE_PROVIDER}</td>
+                            <td>?</td>
+                            <td>?</td>
+                            <td>{episode.PL_POST}</td>
+                            <td>{episode.URN}</td>
+                            <td>{episode.REASON_PLACE_CHANGE}</td>
+                            <td>{episode.DEC}</td>
+                            <td>{episode.REC}</td>
+                        </tr>
+                    ))}
+                    </tbody>
+                </table>
+            )}
         </div>
       </div>
   );
