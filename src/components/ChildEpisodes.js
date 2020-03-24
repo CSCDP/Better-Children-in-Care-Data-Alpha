@@ -23,6 +23,9 @@ function ChildEpisodes({data}) {
         },
         tableContainer: {
             margin: 5,
+        },
+        iserror: {
+            backgroundColor: '#ff9999',
         }
     }));
     const classes = useStyles();
@@ -53,18 +56,18 @@ function ChildEpisodes({data}) {
                     {data.map(episode => (
                         <tr>
                             <td>?</td>
-                            <td>{episode.DECOM}</td>
-                            <td>{episode.LS}</td>
-                            <td>{episode.CIN}</td>
-                            <td>{episode.PLACE}</td>
-                            <td>{episode.PLACE_PROVIDER}</td>
+                            <td className={episode.DECOM_Errors ? classes.iserror : ''}>{episode.DECOM}</td>
+                            <td className={episode.LS_Errors ? classes.iserror : ''}>{episode.LS}</td>
+                            <td className={episode.CIN_Errors ? classes.iserror : ''}>{episode.CIN}</td>
+                            <td className={episode.PLACE_Errors ? classes.iserror : ''}>{episode.PLACE}</td>
+                            <td className={episode.PLACE_PROVIDER_Errors ? classes.iserror : ''}>{episode.PLACE_PROVIDER}</td>
                             <td>?</td>
                             <td>?</td>
-                            <td>{episode.PL_POST}</td>
-                            <td>{episode.URN}</td>
-                            <td>{episode.REASON_PLACE_CHANGE}</td>
-                            <td>{episode.DEC}</td>
-                            <td>{episode.REC}</td>
+                            <td className={episode.PL_POST_Errors ? classes.iserror : ''}>{episode.PL_POST}</td>
+                            <td className={episode.URN_Errors ? classes.iserror : ''}>{episode.URN}</td>
+                            <td className={episode.REASON_PLACE_CHANGE_Errors ? classes.iserror : ''}>{episode.REASON_PLACE_CHANGE}</td>
+                            <td className={episode.DEC_Errors ? classes.iserror : ''}>{episode.DEC}</td>
+                            <td className={episode.REC_Errors ? classes.iserror : ''}>{episode.REC}</td>
                         </tr>
                     ))}
                     </tbody>

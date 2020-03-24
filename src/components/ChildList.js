@@ -2,23 +2,15 @@ import React from 'react';
 import '../App.css';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import Button from '@material-ui/core/Button';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
-  childList: {
-    width: '100%',
-    maxWidth: 360,
-    overflow: 'auto',
-    maxHeight: '80vh',
-    color: theme.palette.text.secondary,
-  },
-  childList: {
-    overflow: 'auto',
-    maxHeight: '80vh',
-  },
   childListTitle: {
     maxWidth: 360,
     fontWeight: "bold",
@@ -28,6 +20,13 @@ const useStyles = makeStyles(theme => ({
     borderBottomStyle:'solid',
     textAlign: 'left',
   },
+    childList: {
+      width: '100%',
+      maxWidth: 360,
+      backgroundColor: theme.palette.background.paper,
+      overflow: 'auto',
+      maxHeight: 250,
+    },
   childListItem: {
     padding:0,
     margin:0,
@@ -48,38 +47,39 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function ChildList({data, onSelect, selectedChildId}) {
-    const onClick = e => {
-        onSelect(e.target.id);
+    const setChild = id => {
+        console.log("ID:")
+        console.log(id);
+        onSelect(id);
     }
+    console.log("HEADERS:");
+    console.log(data.Headers);
 
     const classes = useStyles();
 
     return (
-      <>
-          <div className={classes.childListTitle}>Child ID</div>
+        <List className={classes.childList}>
           {data.Headers.map(child => (
-          <div className={classes.childListContainer}>
-              <List className={classes.childList}>
-              {(selectedChildId == child.CHILD) && (
-                  <ListItem key={child.CHILD} onClick={onClick} id={child.CHILD} className={`${classes.childListItemSelected} ${child._Errors ? classes.iserror : classes.noerror}`}>
-                    <ListItemIcon>
-                        <CheckBoxIcon />
-                    </ListItemIcon>
-                    {child.CHILD}
-                  </ListItem>
-              )}
-              {(selectedChildId != child.CHILD) && (
-                  <ListItem key={child.CHILD} onClick={onClick} id={child.CHILD} className={`${classes.childListItem} ${child._Errors ? classes.iserror : classes.noerror}`}>
-                    <ListItemIcon>
-                        <CheckBoxOutlineBlankIcon />
-                    </ListItemIcon>
-                    {child.CHILD}
-                  </ListItem>
-              )}
-              </List>
-          </div>
+            <>
+            {(selectedChildId == child.CHILD) && (
+              <ListItem  className={classes.childListItemSelected}>
+                <ListItemText primary={child.CHILD} className={classes.noerror} />
+                <ListItemSecondaryAction>
+                  <Button onClick={() => setChild(child.CHILD)}>{child._Errors} Errors</Button>
+                </ListItemSecondaryAction>
+              </ListItem>
+            )}
+            {(selectedChildId != child.CHILD) && (
+              <ListItem className={classes.childListItem}>
+                <ListItemText primary={child.CHILD} className={classes.noerror} />
+                <ListItemSecondaryAction>
+                  <Button onClick={() => setChild(child.CHILD)}>{child._Errors} Errors</Button>
+                </ListItemSecondaryAction>
+              </ListItem>
+            )}
+            </>
           ))}
-      </>
+        </List>
     );
 }
 

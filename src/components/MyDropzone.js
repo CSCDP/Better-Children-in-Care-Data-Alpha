@@ -4,7 +4,7 @@ import GetAppIcon from "@material-ui/icons/GetApp";
 import {makeStyles} from "@material-ui/core/styles";
 import Grid from '@material-ui/core/Grid'
 
-export default function MyDropzone({onFiles}) {
+export default function MyDropzone({onFiles, fileType}) {
     const {getRootProps, getInputProps} = useDropzone({onDrop: onFiles})
 
     const useStyles = makeStyles(theme => ({
@@ -32,7 +32,7 @@ export default function MyDropzone({onFiles}) {
                     <Grid item xs={8}>
                         <div className="App-dropzone" {...getRootProps()}>
                             <input {...getInputProps()} />
-                            <p className={classes.dropzoneNote}>Drag 'n' drop files here, or click to select</p>
+                            <p className={classes.dropzoneNote}>Drag 'n' drop {fileType} here, or click to select</p>
                         </div>
                     </Grid>
                     <Grid item xs={8}>

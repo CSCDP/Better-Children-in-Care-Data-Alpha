@@ -16,7 +16,6 @@ export default class RestService {
             // THIS IS A HORRIBLE HACK AS OUR PYTHON SERVER RETURNS UNENCODED NaN OBJECTS
             let text = await response.text();
             text = text.replace(/NaN/g, 'null');
-            console.log(text);
             return JSON.parse(text);
         } catch (err) {
             console.log("ERROR WHILE LOADING FILE", file, err);

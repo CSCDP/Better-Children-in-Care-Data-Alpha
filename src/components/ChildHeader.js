@@ -3,7 +3,7 @@ import '../App.css';
 import { makeStyles } from '@material-ui/core/styles';
 
 
-function ChildHeader({data, childId}) {
+function ChildHeader({data, childId, usacData}) {
     const useStyles = makeStyles(theme => ({
         root: {
             width: '100%',
@@ -53,13 +53,13 @@ function ChildHeader({data, childId}) {
                 </thead>
                 <tbody>
                     <tr>
-                        <td>{data[0].DOB}</td>
+                        <td className={data[0].DOB_Errors ? classes.iserror : ''}>{data[0].DOB}</td>
                         <td>?</td>
-                        <td>{data[0].SEX == 1?"M":"F"}</td>
+                        <td className={data[0].SEX_Errors ? classes.iserror : ''}>{data[0].SEX == 1?"M":"F"}</td>
                         <td className={data[0].UPN_Errors ? classes.iserror : ''}>{data[0].UPN}</td>
                         <td className={data[0].ETHNIC_Errors ? classes.iserror : ''}>{data[0].ETHNIC}</td>
                         <td>?</td>
-                        <td>?</td>
+                        <td>{usacData[0] ? usacData[0].DUC : 'None'}</td>
                     </tr>
                 </tbody>
             </table>

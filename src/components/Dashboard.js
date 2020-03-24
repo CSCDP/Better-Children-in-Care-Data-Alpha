@@ -8,6 +8,13 @@ import Grid from '@material-ui/core/Grid'
 import { palette } from '@material-ui/system';
 import ChildHeader from "./ChildHeader";
 import ChildEpisodes from "./ChildEpisodes";
+import ErrorOutline from "@material-ui/icons/ErrorOutline";
+import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
+import Button from "@material-ui/core/Button";
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 
 const useStyles = makeStyles(theme => ({
   alphaIndicator: {
@@ -20,7 +27,7 @@ const useStyles = makeStyles(theme => ({
     marginLeft: '10px',
   },
   toolNote: {
-    color: theme.palette.text.secondary,
+    color: '#ffffff',
     fontSize: '0.8em',
     textAlign: 'left',
     paddingLeft: '10px',
@@ -36,6 +43,7 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
     backgroundColor: 'white',
     width: '90%',
+    maxHeight: '800px',
     verticalAlign: 'middle',
   },
   paper: {
@@ -53,14 +61,26 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.text.secondary,
     fontSize: '0.8em',
   },
+  toolNoteContainer: {
+    paddingBottom: '25px',
+    paddingTop: '5px',
+  },
   noteContainer: {
-    paddingBottom: '5px',
-    paddingTop: '50px',
+    paddingBottom: '15px',
+    paddingTop: '5px',
+    paddingLeft: '10px',
+  },
+  childListContainer: {
+    paddingLeft: '10px'
+  },
+  fileList: {
+    color: theme.palette.text.secondary,
   }
 }));
 
 function Dashboard({service}) {
   const [data, setData] = useState({});
+  const [filesReady, setFilesReady] = useState(false);
   const [childId, setChildId] = useState();
 
   const checkChild = child => {
@@ -74,58 +94,98 @@ function Dashboard({service}) {
   }, [service, data]);
 
   const onSelect = id => {
+    console.log("ID:");
+    console.log(id);
     setChildId(id);
   }
 
-  console.log('DATA', data);
+  const readyContinue = () => {
+    setFilesReady(true);
+  }
+
   const classes = useStyles();
   const theme = useTheme();
 
   return (
       <>
-        <div className={classes.toolHeader}>
-          <div className={classes.alphaIndicator}>ALPHA</div>
-          <div className={classes.toolNote}>This new tool allows you to identify and fix errors in your SSDA903 return.  Your feedback will help us improve it</div>
-        </div>
+        <Grid container className={classes.toolNoteContainer}>
+          <Grid item xs={1}>
+            <div className={classes.alphaIndicator}>ALPHA</div>
+          </Grid>
+          <Grid>
+            <div className={classes.toolNote}>This new tool allows you to identify and fix errors in your SSDA903 return.  Your feedback will help us improve it</div>
+          </Grid>
+        </Grid>
         <div className={classes.root}>
-            {!(data.Headers && data.Episodes)  && (
-              <Grid container direction="row" justify="center" alignItems="center" spacing={1}>
+          <Grid container direction="row" justify="center" alignItems="center" spacing={1}>
+            {!(data.Headers)  && (
+              <>
                 <Grid item xs={12}>
-                  &nbsp;
+                  <MyDropzone onFiles={onFiles} fileType="Header CSV file"/>
                 </Grid>
-                <Grid item xs={12}>
-                  <MyDropzone onFiles={onFiles}/>
-                </Grid>
-              </Grid>
+              </>
             )}
-            {(data.Headers && data.Episodes)  && (
-                <Grid container direction="row" justify="left" alignItems="flex-start" spacing={1}>
-                  <Grid item xs={1}>&nbsp;</Grid>
-                  <Grid item xs={10}>
-                    <div className={classes.noteContainer}>
-                      <div className={classes.noteTitle}>Record Detail</div>
-                      <div className={classes.note}>Click on each child ID to view the errors found</div>
-                    </div>
-                  </Grid>
-                  <Grid item xs={1}>&nbsp;</Grid>
-
-                  <Grid item xs={1}>&nbsp;</Grid>
-                  <Grid item xs={2}>
-                    <ChildList data={data} onSelect={onSelect} selectedChildId={childId} />
-                  </Grid>
-                  <Grid item xs={8}>
-                    <Grid container spacing={1}>
-                      <Grid item xs={12}>
-                        <ChildHeader data={data.Headers.filter(checkChild)} childId={childId}/>
-                      </Grid>
-                      <Grid item xs={12}>
-                        <ChildEpisodes data={data.Episodes.filter(checkChild)}/>
+            {((!filesReady) && data.Headers) && (
+              <>
+                <Grid item xs={12}>
+                  <MyDropzone onFiles={onFiles} fileType="Supporting CSV files"/>
+                </Grid>
+                <Grid item xs={4}>&nbsp;</Grid>
+                <Grid item xs={4}>
+                  <List>
+                    <ListItem>
+                      <ListItemText primary="Episodes CSV Loaded" className={classes.fileList} />
+                      <ListItemSecondaryAction className={classes.fileList}>
+                        {!(data.Episodes) && (
+                            <ErrorOutline/>
+                        )}
+                        {(data.Episodes) && (
+                            <CheckCircleOutlineIcon/>
+                        )}
+                      </ListItemSecondaryAction>
+                    </ListItem>
+                    <ListItem>
+                      <ListItemText primary="UASC CSV Loaded" className={classes.fileList} />
+                      <ListItemSecondaryAction className={classes.fileList}>
+                        {(!data.UASC) && (
+                            <ErrorOutline/>
+                        )}
+                        {(data.UASC) && (
+                            <CheckCircleOutlineIcon/>
+                        )}
+                      </ListItemSecondaryAction>
+                    </ListItem>
+                  </List>
+                  <Button onClick={() => readyContinue()}  color="primary">Ready to Continue</Button>
+                </Grid>
+                <Grid item xs></Grid>
+              </>
+            )}
+            {(filesReady)  && (
+                <>
+                    <Grid container spacing={3} direction="column" alignItems="flex-start" className={classes.noteContainer}>
+                      <Grid item xs>
+                        <div className={classes.noteTitle}>Record Detail</div>
+                        <div className={classes.note}>Click on each child ID to view the errors found</div>
                       </Grid>
                     </Grid>
-                    <Grid item xs={1}>&nbsp;</Grid>
-                  </Grid>
-                </Grid>
+
+                    <Grid container spacing={3} className={classes.childListContainer}>
+                      <Grid item xs={2}>
+                        <ChildList data={data} onSelect={onSelect} selectedChildId={childId} />
+                      </Grid>
+                      <Grid container={'true'} item spacing={2} direction="column" xs>
+                        <Grid item xs>
+                          <ChildHeader data={data.Headers.filter(checkChild)} childId={childId} usacData={data.UASC.filter(checkChild)}/>
+                        </Grid>
+                        <Grid item xs>
+                          <ChildEpisodes data={data.Episodes.filter(checkChild)}/>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                  </>
             )}
+          </Grid>
         </div>
       </>
   );
