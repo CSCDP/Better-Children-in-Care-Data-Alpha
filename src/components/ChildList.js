@@ -20,6 +20,15 @@ const useStyles = makeStyles(theme => ({
     borderBottomStyle:'solid',
     textAlign: 'left',
   },
+    sectionTitle: {
+        maxWidth: 360,
+        fontWeight: "bold",
+        color: "#333333",
+        borderBottomColor: theme.palette.text.secondary,
+        borderBottomWidth: 1,
+        borderBottomStyle: 'solid',
+        textAlign: 'left',
+    },
     childList: {
       width: '100%',
       maxWidth: 360,
@@ -59,13 +68,14 @@ function ChildList({data, onSelect, selectedChildId}) {
 
     return (
         <List className={classes.childList}>
+            <div className={classes.sectionTitle}>Child ID</div>
           {data.Headers.map(child => (
             <>
             {(selectedChildId == child.CHILD) && (
               <ListItem  className={classes.childListItemSelected}>
                 <ListItemText primary={child.CHILD} className={classes.noerror} />
                 <ListItemSecondaryAction>
-                  <Button onClick={() => setChild(child.CHILD)}>{child._Errors} Errors</Button>
+                  <Button className={child._Errors > 0 ? "iserror": "noerror"} onClick={() => setChild(child.CHILD)}>{child._Errors > 0 ? "error": "valid"}</Button>
                 </ListItemSecondaryAction>
               </ListItem>
             )}
@@ -73,7 +83,7 @@ function ChildList({data, onSelect, selectedChildId}) {
               <ListItem className={classes.childListItem}>
                 <ListItemText primary={child.CHILD} className={classes.noerror} />
                 <ListItemSecondaryAction>
-                  <Button onClick={() => setChild(child.CHILD)}>{child._Errors} Errors</Button>
+                  <Button className={child._Errors > 0 ? "iserror": "noerror"} onClick={() => setChild(child.CHILD)}>{child._Errors > 0 ? "error": "valid"}</Button>
                 </ListItemSecondaryAction>
               </ListItem>
             )}

@@ -15,6 +15,10 @@ export default class PyodideService {
         const pyodide = await pyodideloader();
         console.log("Loading packages");
         await pyodide.loadPackage(['pandas','xlrd']);
+        /*await pyodide.runPython(`
+           import micropip
+           micropip.install('geopandas')
+        `);*/
         console.log("Initialising script");
         pyodide.runPython(pythonScript);
         this.pyodide = pyodide;

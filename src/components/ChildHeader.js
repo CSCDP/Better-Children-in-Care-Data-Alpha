@@ -13,7 +13,7 @@ function ChildHeader({data, childId, usacData}) {
         sectionTitle: {
             maxWidth: 360,
             fontWeight: "bold",
-            color: theme.palette.text.secondary,
+            color: "#333333",
             borderBottomColor: theme.palette.text.secondary,
             borderBottomWidth: 1,
             borderBottomStyle: 'solid',
@@ -53,13 +53,23 @@ function ChildHeader({data, childId, usacData}) {
                 </thead>
                 <tbody>
                     <tr>
-                        <td className={data[0].DOB_Errors ? classes.iserror : ''}>{data[0].DOB}</td>
-                        <td>?</td>
-                        <td className={data[0].SEX_Errors ? classes.iserror : ''}>{data[0].SEX == 1?"M":"F"}</td>
-                        <td className={data[0].UPN_Errors ? classes.iserror : ''}>{data[0].UPN}</td>
+                        <td>{data[0].DOB}</td>
+                        <td></td>
+                        <td className={data[0].SEX_Errors ? classes.iserror : ''}>{data[0].SEX} ({data[0].SEX == 1?"M":"F"})</td>
+                        <td>{data[0].UPN}</td>
                         <td className={data[0].ETHNIC_Errors ? classes.iserror : ''}>{data[0].ETHNIC}</td>
-                        <td>?</td>
+                        {(usacData) && (
+                        <>
+                        <td>{usacData.length > 0 ? "1": "0"}</td>
                         <td>{usacData[0] ? usacData[0].DUC : 'None'}</td>
+                        </>
+                        )}
+                        {!(usacData) && (
+                        <>
+                        <td>N/A</td>
+                        <td>N/A</td>
+                        </>
+                        )}
                     </tr>
                 </tbody>
             </table>

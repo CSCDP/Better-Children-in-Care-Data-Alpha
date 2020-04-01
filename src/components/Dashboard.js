@@ -53,7 +53,9 @@ const useStyles = makeStyles(theme => ({
   },
   noteTitle: {
     textAlign: 'left',
-    color: theme.palette.text.secondary,
+    color: "#333333",
+    fontWeight: "bold",
+    textAlign: 'left',
     fontSize: '1.2em',
   },
   note: {
@@ -169,14 +171,20 @@ function Dashboard({service}) {
                         <div className={classes.note}>Click on each child ID to view the errors found</div>
                       </Grid>
                     </Grid>
-
                     <Grid container spacing={3} className={classes.childListContainer}>
+                      <Grid item xs={12} alignItems="flex-end">
+                        <div className={classes.note}>Year:
+                            <select disabled>
+                                <option>2020</option>
+                            </select>
+                        </div>
+                      </Grid>
                       <Grid item xs={2}>
                         <ChildList data={data} onSelect={onSelect} selectedChildId={childId} />
                       </Grid>
                       <Grid container={'true'} item spacing={2} direction="column" xs>
                         <Grid item xs>
-                          <ChildHeader data={data.Headers.filter(checkChild)} childId={childId} usacData={data.UASC.filter(checkChild)}/>
+                          <ChildHeader data={data.Headers.filter(checkChild)} childId={childId} usacData={data.UASC ? data.UASC.filter(checkChild): false}/>
                         </Grid>
                         <Grid item xs>
                           <ChildEpisodes data={data.Episodes.filter(checkChild)}/>

@@ -22,9 +22,13 @@ class PyodideLoader extends EventEmitter {
        script.src = 'https://pyodide.cdn.iodide.io/pyodide.js';
        script.async = true;
        script.addEventListener('load', async () => {
-           log("Pyodide loaded");
-           await window.languagePluginLoader;
-           log("Pyodide started");
+           log("Pyodide loaded?");
+           try {
+               await window.languagePluginLoader;
+           } catch {
+               log("Loading plugins failed!")
+           }
+           log("Pyodide started!");
            this.ready = true;
            this.emit('ready', window.pyodide);
        });

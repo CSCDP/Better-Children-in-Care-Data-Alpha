@@ -1,6 +1,6 @@
 import pandas as pd
 import io
-import datetime
+from datetime import date
 # from math import sin, cos, sqrt, atan2, radians
 
 headerCols = {
@@ -20,9 +20,13 @@ ethnicityCodes = [
     'BOTH', 'CHNE', 'OOTH', 'REFU', 'NOBT'
 ]
 
+placeCodes = ["T0", "T1", "T3", "T4", "Z1"]
+
 placeProviderCodes = [
     'PR0', 'PR1', 'PR2', 'PR3', 'PR4', 'PR5'
 ]
+
+genderCodes = [1,2]
 
 rneCodes = ["S", "P", "L", "T", "U", "B"]
 
@@ -44,6 +48,12 @@ recCodes = [
     "E9", "E14", "E15", "E16", "X1"
 ]
 
+urnPLCodes = [
+    "H2", "P1", "P2", "P3", "R1",
+    "R2", "R5", "T0", "T1", "T3",
+    "T4", "Z1"
+]
+
 def checkForNull(df, col):
   df.loc[df[col].isnull(), '_Errors'] += 1
   df.loc[df[col].isnull(), '{}_Errors'.format(col)] = True
@@ -57,6 +67,15 @@ def checkUpn(df, col):
   df.loc[slicedf == False, '{}_Errors'.format(col)] = True
   return df
 
+def checkUrn(df, pl_col, dec_col, urn_col):
+  df.loc[~(df[pl_col].isin(urnPLCodes)) & ((df[dec_col] > pd.Timestamp(date(2016, 3, 31))) | (df[dec_col].isnull())) & (df[urn_col].isna()), "{}_Errors".format(urn_col)] = True
+  return df
+
+def checkPlaceProvider(df, placeColumn, providerColumn):
+  df.loc[(df[placeColumn].isin(placeCodes)) & (df[providerColumn].notnull()), 'PROVIDER_Errors'] = True
+  df.loc[(~df[placeColumn].isin(placeCodes)) & (~df[providerColumn].isin(placeProviderCodes)), 'PROVIDER_Errors'] = True
+  return df
+
 def checkPostCode(df, col):
   postcoderegex = r'([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9][A-Za-z]?))))s?[0-9][A-Za-z]{2})'
   slicedf = df[col].str.contains(postcoderegex)
@@ -65,12 +84,13 @@ def checkPostCode(df, col):
   df.loc[slicedf == False, '{}_Errors'.format(col)] = True
   return df
 
-def checkCodes(df, allowedlist, col):
+def checkCodes(df, allowedlist, col, errorCode):
   df.loc[~df[col].isin(allowedlist), '_Errors'] += 1
   df.loc[~df[col].isin(allowedlist), '{}_Errors'.format(col)] = True
   return df
 
-def checkDate(df, col):
+def checkDate(df, col, errorCode):
+  # Will have to change this so that it checks a datetime object instead?
   dateregex = r'^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[13-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$'
   slicedf = df[col].str.contains(dateregex)
   slicedf = slicedf.fillna(False)
@@ -78,44 +98,39 @@ def checkDate(df, col):
   df.loc[slicedf == False, '{}_Errors'.format(col)] = True
   return df
 
-def calculatePostCodeDistance(df, pc1, pc2):
-  # Need to implement preferably by doing a local lookup and not an API call
-  # If I can look up post code and convert to longitude and latitude, here is the
-  # calculation that would work:
-  lat1 = radians(52.2296756)
-  lon1 = radians(21.0122287)
-  lat2 = radians(52.406374)
-  lon2 = radians(16.9251681)
-
-  dlon = lon2 - lon1
-  dlat = lat2 - lat1
-
-  a = sin(dlat / 2)**2 + cos(lat1) * cos(lat2) * sin(dlon / 2)**2
-  c = 2 * atan2(sqrt(a), sqrt(1 - a))
-
-  distance = R * c
+def calculatePostCodeDistance(df, pc1, pc2, colname):
+  df[colname] = df.apply(lambda row: postCodeDistance(row, pc1, pc2), axis=1)
   return df
 
 def runHeaderTests(df):
-  for col in headerCols:
-    df = checkForNull(df, col)
-  df = checkUpn(df, "UPN")
-  df = checkDate(df, "DOB")
-  df = checkCodes(df, ethnicityCodes, "ETHNIC")
+  #for col in headerCols:
+  #  df = checkForNull(df, col)
+  #df = checkUpn(df, "UPN")
+  #df = checkDate(df, "DOB", 102)
+  df = checkCodes(df, ethnicityCodes, "ETHNIC", 103)
+  df = checkCodes(df, genderCodes, "SEX", 101)
   return df
 
 def runEpisodeTests(df):
-  for col in episodeCols:
-    df = checkForNull(df, col)
-
-  df = checkPostCode(df, "HOME_POST")
-  df = checkPostCode(df, "PL_POST")
-  df = checkDate(df, "DECOM")
-  df = checkDate(df, "DEC")
-  df = checkCodes(df, rneCodes, "RNE")
-  df = checkCodes(df, lsCodes, "LS")
-  df = checkCodes(df, cinCodes, "CIN")
-  df = checkCodes(df, recCodes, "REC")
+  print("Setting fields to datetime")
+  #df['DEC'] = df['DEC'].apply(lambda x: x.strftime('%Y-%m-%d')if not pd.isnull(x) else '')
+  df['DEC'] = pd.to_datetime(df['DEC'], errors='coerce')
+  df.loc[df.DEC.isnull(), "DEC"] = pd.Timestamp(date(2090, 3, 31))
+  #for col in episodeCols:
+  #  df = checkForNull(df, col)
+  print("Check URN")
+  df = checkUrn(df, "PLACE", "DEC", "URN")
+  #df = checkPostCode(df, "HOME_POST")
+  #df = checkPostCode(df, "PL_POST")
+  #df = calculatePostCodeDistance(df, "HOME_POST", "PL_POST", "PL_DISTANCE")
+  print("Check other fields")
+  df = checkPlaceProvider(df, "PLACE", "PLACE_PROVIDER")
+  #df = checkDate(df, "DECOM", 141)
+  #df = checkDate(df, "DEC", 141)
+  df = checkCodes(df, rneCodes, "RNE", 143)
+  df = checkCodes(df, lsCodes, "LS", 144)
+  df = checkCodes(df, cinCodes, "CIN", 145)
+  df = checkCodes(df, recCodes, "REC", 141)
 
   return df
 
@@ -151,13 +166,28 @@ def read_file(data):
 
     print("Running Tests...")
     if datatype == "Headers":
+      df.set_index('CHILD')
       df = runHeaderTests(df)
     elif datatype == "Episodes":
+      df.set_index('CHILD')
       df = runEpisodeTests(df)
+    elif datatype == "UASC":
+      df.set_index('CHILD')
+
 
     '''print("Formatting results...")
     df['CHILD'] = df["CHILD"].apply(
       lambda x: "<a href='#'>{}</a>".format(x)
     )'''
     print("Outputting results...")
-    return dict(type=datatype,data=df.to_dict(orient='records'))
+    if datatype == "Headers":
+        return dict(type=datatype,data=df.to_dict(orient='records'))
+        # This seems to create its own index instead of using CHILD as one...
+        #return dict(type=datatype,data=df.to_dict(orient='index'))
+    elif datatype == "Episodes":
+        df["DEC"].dt.strftime('%d/%m/%Y')
+        df.loc[df["DEC"] == "31-3-2090", "DEC"] = ''
+        return dict(type=datatype,data=df.to_dict(orient='records'))
+    else:
+        return dict(type=datatype,data=df.to_dict(orient='records'))
+
