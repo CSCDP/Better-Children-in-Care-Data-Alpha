@@ -8,20 +8,27 @@ const log = message => {
 
 class PyodideLoader extends EventEmitter {
     constructor() {
-       if (window.pyodide_loader) {
-           throw Error("Can only have one Pyodide instance");
-       }
-       super();
-       this.ready = false;
-       window.pyodide_loader = this;
+        if (window.pyodide_loader) {
+            throw Error("Can only have one Pyodide instance");
+        }
+        super();
+        this.ready = false;
+        window.pyodide_loader = this;
+    }
+
+    load() {
        log('Including pyodide script');
        const script = document.createElement('script');
        script.src = 'https://pyodide.cdn.iodide.io/pyodide.js';
        script.async = true;
        script.addEventListener('load', async () => {
-           log("Pyodide loaded");
-           await window.languagePluginLoader;
-           log("Pyodide started");
+           log("Pyodide loaded?");
+           try {
+               await window.languagePluginLoader;
+           } catch {
+               log("Loading plugins failed!")
+           }
+           log("Pyodide started!");
            this.ready = true;
            this.emit('ready', window.pyodide);
        });
@@ -38,6 +45,7 @@ const _pyodide = new PyodideLoader();
 
 export default () => {
     return new Promise((resolve, reject) => {
+        _pyodide.load();
         if (_pyodide.failed) {
             reject("Pyodide failed to load");
         }

@@ -1,6 +1,7 @@
 import React, {useCallback, useState, useEffect} from 'react'
 import {useDropzone} from 'react-dropzone'
 import { Parser } from 'html-to-react'
+import GetAppIcon from '@material-ui/icons/GetApp';
 
 const htmlToReactParser = new Parser();
 
@@ -37,8 +38,24 @@ episodecols = {
   'URN'
 }
 
+ethniccodes = [
+  "ABAN",
+  "AIND",
+  "AMPK",
+  "AOPK",
+  "AOTH",
+  "BAFR",
+  "BCRB",
+  "BOTH",
+  "CHNE"
+]
+
 def checkForNull(df, col):
   df.loc[df[col].isnull(), '_Errors'] = True
+  return df
+
+def checkEthnicCode(df, col):
+  df.loc[df[col].isin(ethniccodes), '_Errors'] = True
   return df
 
 def checkPostCode(df, col):
@@ -51,6 +68,7 @@ def checkPostCode(df, col):
 def runHeaderTests(df):
   df = checkForNull(df, "CHILD")
   df = checkForNull(df, "UPN")
+  df = checkEthnicCode(df, "ETHNIC")
   return df
 
 def runEpisodeTests(df):
@@ -88,10 +106,6 @@ def read_file(file, buffer):
     elif datatype == "Episodes":
       df = runEpisodeTests(df)
 
-    '''print("Formatting results...")
-    df['CHILD'] = df["CHILD"].apply(
-      lambda x: "<a href='#'>{}</a>".format(x)
-    )'''
     print("Outputting results...")
     return df.to_json(), datatype
         `;
