@@ -50,9 +50,9 @@ recCodes = [
 ]
 
 urnPLCodes = [
-    "H2", "P1", "P2", "P3", "R1",
-    "R2", "R5", "T0", "T1", "T3",
-    "T4", "Z1"
+    "H5", "P1", "P2", "P3", "R1",
+    "R2", "R5", "T0", "T1", "T2",
+    "T3", "T4", "Z1"
 ]
 
 def formatRecords(g, keys):
