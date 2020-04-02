@@ -190,13 +190,16 @@ def read_file(data):
     print("Outputting results...")
     if datatype == "Headers":
         #return dict(type=datatype,data=df.to_dict(orient='records'))
+
         # Group by the Child ID, and use it to force a unique key in the resulting dictionary
-        return dict(type=datatype,data=df.set_index('CHILD')[['DOB','SEX','UPN','ETHNIC']].T.to_dict('dict'))
+        # Should probably edit later to get column labels from DF itself like the other data types
+        return dict(type=datatype,data=df.set_index('CHILD')[["SEX", "DOB", "ETHNIC", "UPN", "MOTHER", "MC_DOB"]].T.to_dict('dict'))
     elif datatype == "Episodes":
         df["DEC"].dt.strftime('%d/%m/%Y')
         df.loc[df["DEC"] == "31-3-2090", "DEC"] = ''
         #return dict(type=datatype,data=df.to_dict(orient='records'))
         return dict(type=datatype,data=df.groupby('CHILD').apply(lambda g: formatRecords(g, df.columns.tolist())).to_dict())
     else:
-        return dict(type=datatype,data=df.to_dict(orient='records'))
+        #return dict(type=datatype,data=df.to_dict(orient='records'))
+        return dict(type=datatype,data=df.groupby('CHILD').apply(lambda g: formatRecords(g, df.columns.tolist())).to_dict())
 

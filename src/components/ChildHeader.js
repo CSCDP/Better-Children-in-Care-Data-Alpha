@@ -61,7 +61,7 @@ function ChildHeader({data, childId, usacData}) {
                         {(usacData) && (
                         <>
                         <td>{usacData.length > 0 ? "1": "0"}</td>
-                        <td>{usacData ? usacData.DUC : 'None'}</td>
+                        <td>{usacData ? usacData[0].DUC : 'None'}</td>
                         </>
                         )}
                         {!(usacData) && (
