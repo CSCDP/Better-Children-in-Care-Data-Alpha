@@ -62,28 +62,28 @@ function ChildList({data, onSelect, selectedChildId}) {
         onSelect(id);
     }
     console.log("HEADERS:");
-    console.log(data.Headers);
+    console.log(data);
 
     const classes = useStyles();
 
     return (
         <List className={classes.childList}>
             <div className={classes.sectionTitle}>Child ID</div>
-          {data.Headers.map(child => (
+          {Object.keys(data).map(child => (
             <>
-            {(selectedChildId == child.CHILD) && (
+            {(selectedChildId == child) && (
               <ListItem  className={classes.childListItemSelected}>
-                <ListItemText primary={child.CHILD} className={classes.noerror} />
+                <ListItemText primary={child} className={classes.noerror} />
                 <ListItemSecondaryAction>
-                  <Button className={child._Errors > 0 ? "iserror": "noerror"} onClick={() => setChild(child.CHILD)}>{child._Errors > 0 ? "error": "valid"}</Button>
+                  <Button className={data[child]._Errors > 0 ? "iserror": "noerror"} onClick={() => setChild(child)}>{data[child]._Errors > 0 ? "error": "valid"}</Button>
                 </ListItemSecondaryAction>
               </ListItem>
             )}
-            {(selectedChildId != child.CHILD) && (
+            {(selectedChildId != child) && (
               <ListItem className={classes.childListItem}>
-                <ListItemText primary={child.CHILD} className={classes.noerror} />
+                <ListItemText primary={child} className={classes.noerror} />
                 <ListItemSecondaryAction>
-                  <Button className={child._Errors > 0 ? "iserror": "noerror"} onClick={() => setChild(child.CHILD)}>{child._Errors > 0 ? "error": "valid"}</Button>
+                  <Button className={data[child]._Errors > 0 ? "iserror": "noerror"} onClick={() => setChild(child)}>{data[child]._Errors > 0 ? "error": "valid"}</Button>
                 </ListItemSecondaryAction>
               </ListItem>
             )}

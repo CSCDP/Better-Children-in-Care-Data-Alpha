@@ -38,7 +38,7 @@ function ChildHeader({data, childId, usacData}) {
       <div className="childHeader">
         <div className={classes.sectionTitle}>Header</div>
         <div className={classes.tableContainer}>
-            {(data[0])  && (
+            {(data)  && (
             <table className={classes.root} border={1}>
                 <thead>
                     <tr>
@@ -53,15 +53,15 @@ function ChildHeader({data, childId, usacData}) {
                 </thead>
                 <tbody>
                     <tr>
-                        <td>{data[0].DOB}</td>
+                        <td>{data.DOB}</td>
                         <td></td>
-                        <td className={data[0].SEX_Errors ? classes.iserror : ''}>{data[0].SEX} ({data[0].SEX == 1?"M":"F"})</td>
-                        <td>{data[0].UPN}</td>
-                        <td className={data[0].ETHNIC_Errors ? classes.iserror : ''}>{data[0].ETHNIC}</td>
+                        <td className={data.SEX_Errors ? classes.iserror : ''}>{data.SEX} ({data.SEX == 1?"M":"F"})</td>
+                        <td>{data.UPN}</td>
+                        <td className={data.ETHNIC_Errors ? classes.iserror : ''}>{data.ETHNIC}</td>
                         {(usacData) && (
                         <>
                         <td>{usacData.length > 0 ? "1": "0"}</td>
-                        <td>{usacData[0] ? usacData[0].DUC : 'None'}</td>
+                        <td>{usacData ? usacData.DUC : 'None'}</td>
                         </>
                         )}
                         {!(usacData) && (

@@ -180,11 +180,11 @@ function Dashboard({service}) {
                         </div>
                       </Grid>
                       <Grid item xs={2}>
-                        <ChildList data={data} onSelect={onSelect} selectedChildId={childId} />
+                        <ChildList data={data.Headers} onSelect={onSelect} selectedChildId={childId} />
                       </Grid>
                       <Grid container={'true'} item spacing={2} direction="column" xs>
                         <Grid item xs>
-                          <ChildHeader data={data.Headers.filter(checkChild)} childId={childId} usacData={data.UASC ? data.UASC.filter(checkChild): false}/>
+                          <ChildHeader data={data.Headers[childId]} childId={childId} usacData={data.UASC ? data.UASC.filter(checkChild): false}/>
                         </Grid>
                         <Grid item xs>
                           <ChildEpisodes data={data.Episodes.filter(checkChild)}/>

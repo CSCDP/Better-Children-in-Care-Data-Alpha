@@ -166,6 +166,7 @@ def read_file(data):
 
     print("Running Tests...")
     if datatype == "Headers":
+      df['CHILD'] = pd.to_numeric(df['CHILD'])
       df.set_index('CHILD')
       df = runHeaderTests(df)
     elif datatype == "Episodes":
@@ -181,9 +182,9 @@ def read_file(data):
     )'''
     print("Outputting results...")
     if datatype == "Headers":
-        return dict(type=datatype,data=df.to_dict(orient='records'))
+        #return dict(type=datatype,data=df.to_dict(orient='records'))
         # This seems to create its own index instead of using CHILD as one...
-        #return dict(type=datatype,data=df.to_dict(orient='index'))
+        return dict(type=datatype,data=df.set_index('CHILD')[['DOB','SEX','UPN','ETHNIC']].T.to_dict('dict'))
     elif datatype == "Episodes":
         df["DEC"].dt.strftime('%d/%m/%Y')
         df.loc[df["DEC"] == "31-3-2090", "DEC"] = ''
