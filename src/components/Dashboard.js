@@ -89,9 +89,30 @@ function Dashboard({service}) {
     return child.CHILD == childId;
   }
 
+  /*const checkData = (data) => {
+    for (const child of Object.keys(data.Headers)) {
+      console.log(data.Episodes[child]);
+      for (item in data.Episodes[child]) {
+        if (item["_Errors"] == true) {
+          data.Headers["_Errors"] = true;
+        }
+      }
+    }
+  }*/
+
   const onFiles = useCallback(async files => {
     const result = await service.loadFiles(files);
     const newData = {...data, ...result}
+    if ("Episodes" in newData && "Headers" in newData) {
+      console.log("Combining Errors across data inputs...");
+      for (var child in newData.Headers) {
+        for (var item in newData.Episodes[child]) {
+          if (newData.Episodes[child][item]["_Errors"]) {
+            newData.Headers[child]["_Errors"] = true;
+          }
+        }
+      }
+    }
     setData(newData);
   }, [service, data]);
 

@@ -76,11 +76,13 @@ def checkUpn(df, col):
 
 def checkUrn(df, pl_col, dec_col, urn_col):
   df.loc[~(df[pl_col].isin(urnPLCodes)) & ((df[dec_col] > pd.Timestamp(date(2016, 3, 31))) | (df[dec_col].isnull())) & (df[urn_col].isna()), "{}_Errors".format(urn_col)] = True
+  df.loc[df["{}_Errors".format(urn_col)] == True, "_Errors"] = True
   return df
 
 def checkPlaceProvider(df, placeColumn, providerColumn):
   df.loc[(df[placeColumn].isin(placeCodes)) & (df[providerColumn].notnull()), 'PROVIDER_Errors'] = True
   df.loc[(~df[placeColumn].isin(placeCodes)) & (~df[providerColumn].isin(placeProviderCodes)), 'PROVIDER_Errors'] = True
+  df.loc[df["PROVIDER_Errors"] == True, "_Errors"] = True
   return df
 
 def checkPostCode(df, col):
@@ -114,8 +116,8 @@ def runHeaderTests(df):
   #  df = checkForNull(df, col)
   #df = checkUpn(df, "UPN")
   #df = checkDate(df, "DOB", 102)
-  df = checkCodes(df, ethnicityCodes, "ETHNIC", 103)
-  df = checkCodes(df, genderCodes, "SEX", 101)
+  #df = checkCodes(df, ethnicityCodes, "ETHNIC", 103)
+  #df = checkCodes(df, genderCodes, "SEX", 101)
   return df
 
 def runEpisodeTests(df):
@@ -134,10 +136,10 @@ def runEpisodeTests(df):
   df = checkPlaceProvider(df, "PLACE", "PLACE_PROVIDER")
   #df = checkDate(df, "DECOM", 141)
   #df = checkDate(df, "DEC", 141)
-  df = checkCodes(df, rneCodes, "RNE", 143)
-  df = checkCodes(df, lsCodes, "LS", 144)
-  df = checkCodes(df, cinCodes, "CIN", 145)
-  df = checkCodes(df, recCodes, "REC", 141)
+  #df = checkCodes(df, rneCodes, "RNE", 143)
+  #df = checkCodes(df, lsCodes, "LS", 144)
+  #df = checkCodes(df, cinCodes, "CIN", 145)
+  #df = checkCodes(df, recCodes, "REC", 141)
 
   return df
 
@@ -158,12 +160,6 @@ def read_file_from_buffer(buffer):
 
 def read_file(data):
     data = io.BytesIO(data)
-
-
-#     print("Determining File Type...")
-#     if "xls" in file.name:
-#         df = pd.read_excel(data)
-#     else:
     df = pd.read_csv(data)
 
     print("Detecting Data Type...")
