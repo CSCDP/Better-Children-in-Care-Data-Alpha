@@ -187,7 +187,7 @@ function Dashboard({service}) {
                           <ChildHeader data={data.Headers[childId]} childId={childId} usacData={data.UASC ? data.UASC.filter(checkChild): false}/>
                         </Grid>
                         <Grid item xs>
-                          <ChildEpisodes data={data.Episodes.filter(checkChild)}/>
+                          <ChildEpisodes data={data.Episodes[childId]}/>
                         </Grid>
                       </Grid>
                     </Grid>

@@ -54,6 +54,13 @@ urnPLCodes = [
     "T4", "Z1"
 ]
 
+def formatRecords(g, keys):
+    result = []
+    for item in g.values.tolist():
+        item = dict(zip(keys, item))
+        result.append(item)
+    return result
+
 def checkForNull(df, col):
   df.loc[df[col].isnull(), '_Errors'] += 1
   df.loc[df[col].isnull(), '{}_Errors'.format(col)] = True
@@ -183,12 +190,13 @@ def read_file(data):
     print("Outputting results...")
     if datatype == "Headers":
         #return dict(type=datatype,data=df.to_dict(orient='records'))
-        # This seems to create its own index instead of using CHILD as one...
+        # Group by the Child ID, and use it to force a unique key in the resulting dictionary
         return dict(type=datatype,data=df.set_index('CHILD')[['DOB','SEX','UPN','ETHNIC']].T.to_dict('dict'))
     elif datatype == "Episodes":
         df["DEC"].dt.strftime('%d/%m/%Y')
         df.loc[df["DEC"] == "31-3-2090", "DEC"] = ''
-        return dict(type=datatype,data=df.to_dict(orient='records'))
+        #return dict(type=datatype,data=df.to_dict(orient='records'))
+        return dict(type=datatype,data=df.groupby('CHILD').apply(lambda g: formatRecords(g, df.columns.tolist())).to_dict())
     else:
         return dict(type=datatype,data=df.to_dict(orient='records'))
 

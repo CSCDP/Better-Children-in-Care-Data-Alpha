@@ -78,7 +78,7 @@ function ChildEpisodes({data}) {
               </Grid>
           </Grid>
         <div className={classes.tableContainer}>
-            { (data[0]) && (
+            { (data) && (
                 <table className={classes.root} border={1}>
                     <thead>
                         <tr>
@@ -119,6 +119,7 @@ function ChildEpisodes({data}) {
                 </table>
             )}
         </div>
+        {(data) && (
         <div>
           {(data.some(error218)) && (
               <div className={classes.root}>Error 218: Ofsted Unique reference number (URN) is required.</div>
@@ -127,6 +128,7 @@ function ChildEpisodes({data}) {
               <div className={classes.root}>Error 178: Placement provider code is not a valid code.</div>
           )}
         </div>
+        )}
       </div>
   );
 }
