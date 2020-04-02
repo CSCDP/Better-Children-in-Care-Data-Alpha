@@ -195,6 +195,7 @@ def read_file(data):
         # Should probably edit later to get column labels from DF itself like the other data types
         return dict(type=datatype,data=df.set_index('CHILD')[["SEX", "DOB", "ETHNIC", "UPN", "MOTHER", "MC_DOB"]].T.to_dict('dict'))
     elif datatype == "Episodes":
+        # For some reason this doesn't format the date correctly....  :-(
         df["DEC"].dt.strftime('%d/%m/%Y')
         df.loc[df["DEC"] == "31-3-2090", "DEC"] = ''
         #return dict(type=datatype,data=df.to_dict(orient='records'))

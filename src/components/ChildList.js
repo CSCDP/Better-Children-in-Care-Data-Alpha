@@ -61,8 +61,8 @@ function ChildList({data, onSelect, selectedChildId}) {
         console.log(id);
         onSelect(id);
     }
-    console.log("HEADERS:");
-    console.log(data);
+    //console.log("HEADERS:");
+    //console.log(data);
 
     const classes = useStyles();
 

@@ -8,8 +8,8 @@ function ChildEpisodes({data}) {
     const error218 = (element) => element.URN_Errors;
     const error178 = (element) => element.PROVIDER_Errors;
 
-    console.log("EPISODES:");
-    console.log(data);
+    //console.log("EPISODES:");
+    //console.log(data);
 
     const useStyles = makeStyles(theme => ({
         root: {
@@ -84,6 +84,7 @@ function ChildEpisodes({data}) {
                         <tr>
                             <th>Row</th>
                             <th>Start Date</th>
+                            <th>RNE</th>
                             <th>LS</th>
                             <th>CIN</th>
                             <th>PL</th>
@@ -100,19 +101,20 @@ function ChildEpisodes({data}) {
                     <tbody>
                     {data.map((episode, index) => (
                         <tr>
-                            <td>{index}</td>
-                            <td className={episode.DECOM_Errors ? classes.iserror : ''}>{episode.DECOM}</td>
-                            <td className={episode.LS_Errors ? classes.iserror : ''}>{episode.LS}</td>
-                            <td className={episode.CIN_Errors ? classes.iserror : ''}>{episode.CIN}</td>
+                            <td>{index + 1}</td>
+                            <td>{episode.DECOM}</td>
+                            <td>{episode.RNE}</td>
+                            <td>{episode.LS}</td>
+                            <td>{episode.CIN}</td>
                             <td className={episode.PLACE_Errors ? classes.iserror : ''}>{episode.PLACE}</td>
                             <td className={episode.PLACE_PROVIDER_Errors | episode.PROVIDER_Errors ? classes.iserror : ''}>{episode.PLACE_PROVIDER}</td>
-                            <td>0</td>
-                            <td></td>
-                            <td>{episode.PL_POST}</td>
+                            <td> </td>
+                            <td> </td>
+                            <td> </td>
                             <td className={episode.URN_Errors ? classes.iserror : ''}>{episode.URN}</td>
                             <td className={episode.REASON_PLACE_CHANGE_Errors ? '' : ''}>{episode.REASON_PLACE_CHANGE}</td>
                             <td>{episode.DEC}</td>
-                            <td className={episode.REC_Errors ? '' : ''}>{episode.REC}</td>
+                            <td>{episode.REC}</td>
                         </tr>
                     ))}
                     </tbody>

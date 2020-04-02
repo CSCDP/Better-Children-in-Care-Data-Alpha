@@ -27,11 +27,11 @@ function ChildHeader({data, childId, usacData}) {
         }
     }));
 
-    console.log("DATA:");
-    console.log(data);
-    console.log("Child Id:");
-    console.log(childId);
-    console.log("---------------");
+    //console.log("DATA:");
+    //console.log(data);
+    //console.log("Child Id:");
+    //console.log(childId);
+    //console.log("---------------");
     const classes = useStyles();
 
   return (
@@ -47,6 +47,8 @@ function ChildHeader({data, childId, usacData}) {
                         <th>Sex</th>
                         <th>UPN</th>
                         <th>Ethnicity</th>
+                        <th>Mother</th>
+                        <th>MC DOB</th>
                         <th>USAC</th>
                         <th>USAC Date</th>
                     </tr>
@@ -55,19 +57,21 @@ function ChildHeader({data, childId, usacData}) {
                     <tr>
                         <td>{data.DOB}</td>
                         <td></td>
-                        <td className={data.SEX_Errors ? classes.iserror : ''}>{data.SEX} ({data.SEX == 1?"M":"F"})</td>
+                        <td>{data.SEX} ({data.SEX == 1?"M":"F"})</td>
                         <td>{data.UPN}</td>
-                        <td className={data.ETHNIC_Errors ? classes.iserror : ''}>{data.ETHNIC}</td>
+                        <td>{data.ETHNIC}</td>
+                        <td>{data.MOTHER}</td>
+                        <td>{data.MC_DOB}</td>
                         {(usacData) && (
                         <>
                         <td>{usacData.length > 0 ? "1": "0"}</td>
-                        <td>{usacData ? usacData[0].DUC : 'None'}</td>
+                        <td>{usacData ? usacData[0].DUC : ''}</td>
                         </>
                         )}
                         {!(usacData) && (
                         <>
-                        <td>N/A</td>
-                        <td>N/A</td>
+                        <td> </td>
+                        <td> </td>
                         </>
                         )}
                     </tr>
