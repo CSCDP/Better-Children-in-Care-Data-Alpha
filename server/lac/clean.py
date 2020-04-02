@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 import io
 from datetime import date
 # from math import sin, cos, sqrt, atan2, radians
@@ -184,6 +185,7 @@ def read_file(data):
       lambda x: "<a href='#'>{}</a>".format(x)
     )'''
     print("Outputting results...")
+    df = df.replace(np.nan, '', regex=True)
     if datatype == "Headers":
         #return dict(type=datatype,data=df.to_dict(orient='records'))
 
