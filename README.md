@@ -19,7 +19,7 @@ In this Alpha, we developed a prototype that could help local councils identify 
 All outputs from the Alpha phase of the project are available here:
 
  * [Final User Research Report](Final User Research Report.pdf)
- * [Business Case](Business Case.xlsx)
+ * [Business Case](Business_Case.xlsx)
  * [Prototype Design]
  * [Prototype Specification]
 
