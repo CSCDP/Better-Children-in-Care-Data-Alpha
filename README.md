@@ -8,7 +8,7 @@ This Alpha project was a cross-council partnership of seven councils led by Grea
 
 Children in care are among the most vulnerable groups in our society. Compared to their peers, they are 5 times more likely to be excluded from school, 4 times more likely to be involved with youth justice system and 40 times more likely to become homeless.
 
-Throughout the country, local councils are working hard to close this gap. They are looking for evidence to understand the kind of support that can improve the outcomes of children in care. Unfortunately, the data needed to measure program effectiveness and inform service provision isn’t always of good quality. Even though local councils do collect a lot of data on children in care, they are not used to their fullest potential because children’s services leaders do not trust the data’s accuracy. 
+Throughout the country, local councils are working hard to close this gap. They are looking for evidence to understand the kind of support that can improve the outcomes of children in care. While local councils do collect data on children in care, they are often not kept in good quality year-round. This diminishes children's services leaders' trust in the data and prevents it from being used to inform strategic and operational decisions related to the support for children in care.  
 
 ## Solution
 
