@@ -12,14 +12,14 @@ Throughout the country, local councils are working hard to close this gap. They 
 
 ## Solution
 
-In this Alpha, we developed a prototype that could help local councils identify and resolve errors in their children in care data throughout the year. We focused on a common statutory process (SSDA903) and built the prototype so that users can access it by simply loading a URL in a web browser. There, the application can read data files from their local storage and display results directly. Throughout the process, no data is sent off anywhere and the computer can be disconnected from the internet as the application runs its test locally.
+In this Alpha, we prototyped an application that could help local councils identify and resolve errors in their children in care data throughout the year. We focused on a common statutory process (SSDA903) and built the prototype so that users can access it by simply loading a URL in a web browser. There, the application can read data files from their local storage and display results directly. Throughout the process, no data is sent off anywhere and the computer can be disconnected from the internet as the application runs its test locally.
 
 ## Alpha Outputs
 
 All outputs from the Alpha phase of the project are available here:
 
- * [Final User Research Report](Final_User_Research_Report.pdf) - This report consolidates all our learning from user research. It outlines our research approach and our journey in exploring testing possible solutions with users.     
- * [Business Case](Business_Case.xlsx) - This business case articulates our theory of change and quantifies the benefits of implementing the solution we recommended.
- * [Prototype Design](https://www.figma.com/file/tPGzr4NebhFs84QJOqRXzU/Better-Children-in-Care-Application-Design?node-id=271%3A0) - This Figma design captures 
- * [Prototype Specification](Prototype_Specification.xlsx)
+ * [Final User Research Report](Final_User_Research_Report.pdf) - This report consolidates all our learning from user research. It outlines the problem we are trying to solve, our research approach and our journey in testing possible solutions with users.     
+ * [Business Case](Business_Case.xlsx) - This business case contains our theory of change and quantifies the benefits of implementing the solution we recommended.
+ * [Prototype Design](https://www.figma.com/file/tPGzr4NebhFs84QJOqRXzU/Better-Children-in-Care-Application-Design?node-id=271%3A0) - This Figma design shows the user interface of the application. It was created to facilitate testing with local councils in determining the features and display that are helpful for users. 
+ * [Prototype Specification](Prototype_Specification.xlsx) - This specification document complements the design with more details on the features of the applications.  
 
