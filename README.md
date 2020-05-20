@@ -12,7 +12,7 @@ Throughout the country, local councils are working hard to close this gap. They 
 
 ## Solution
 
-In this Alpha, we developed a prototype that could help local councils identify and resolve errors in their children in care data throughout the year. We focused on a common statutory process (SSDA903) and built the prototype so that users can access it by simply loading a URL in a web browser. This circumvents the often lengthy process of getting data processing agreements or IT approval from each local council. 
+In this Alpha, we developed a prototype that could help local councils identify and resolve errors in their children in care data throughout the year. We focused on a common statutory process (SSDA903) and built the prototype so that users can access it by simply loading a URL in a web browser. There, the application can read data files from their local storage and display results directly. Throughout the process, no data is sent off anywhere and the computer can be disconnected from the internet as the application runs its test locally.
 
 ## Alpha Outputs
 
