@@ -20,6 +20,6 @@ All outputs from the Alpha phase of the project are available here:
 
  * [Final User Research Report](Final_User_Research_Report.pdf)
  * [Business Case](Business_Case.xlsx)
- * [Prototype Design](Prototype_Specification.xlsx)
- * [Prototype Specification](https://www.figma.com/file/tPGzr4NebhFs84QJOqRXzU/Better-Children-in-Care-Application-Design?node-id=271%3A0)
+ * [Prototype Design](https://www.figma.com/file/tPGzr4NebhFs84QJOqRXzU/Better-Children-in-Care-Application-Design?node-id=271%3A0)
+ * [Prototype Specification](Prototype_Specification.xlsx)
 
