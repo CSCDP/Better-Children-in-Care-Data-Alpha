@@ -18,10 +18,8 @@ In this Alpha, we developed a prototype that could help local councils identify 
 
 All outputs from the Alpha phase of the project are available here:
 
- * Final User Research Report
+ * [Final User Research Report](Final User Research Report.pdf)
  * [Business Case](Business Case.xlsx)
- * Prototype Design
- * Prototype Specification
+ * [Prototype Design]
+ * [Prototype Specification]
 
- * [Business Case](https://github.com/CSCDP/Family-Context-PrivateBeta/tree/master/Business%20Case)
- * [Common Data Model](https://github.com/CSCDP/Family-Context-PrivateBeta/tree/master/Common%20Data%20Model)
