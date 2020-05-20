@@ -18,8 +18,8 @@ In this Alpha, we developed a prototype that could help local councils identify 
 
 All outputs from the Alpha phase of the project are available here:
 
- * [Final User Research Report](Final_User_Research_Report.pdf)
- * [Business Case](Business_Case.xlsx)
- * [Prototype Design](https://www.figma.com/file/tPGzr4NebhFs84QJOqRXzU/Better-Children-in-Care-Application-Design?node-id=271%3A0)
+ * [Final User Research Report](Final_User_Research_Report.pdf) - This report consolidates all our learning from user research. It outlines our research approach and our journey in exploring testing possible solutions with users.     
+ * [Business Case](Business_Case.xlsx) - This business case articulates our theory of change and quantifies the benefits of implementing the solution we recommended.
+ * [Prototype Design](https://www.figma.com/file/tPGzr4NebhFs84QJOqRXzU/Better-Children-in-Care-Application-Design?node-id=271%3A0) - This Figma design captures 
  * [Prototype Specification](Prototype_Specification.xlsx)
 
