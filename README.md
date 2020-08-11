@@ -18,8 +18,9 @@ In this Alpha, we prototyped an application that could help local councils ident
 
 All outputs from the Alpha phase of the project are available here:
 
- * [Final User Research Report](./outputs/Final_User_Research_Report.pdf) - This report consolidates all our learning from user research. It outlines the problem we are trying to solve, our research approach and our journey in testing possible solutions with users.     
+ * [Final User Research Report](./outputs/Final_User_Research_Report.pdf) - This report consolidates all our learning from user research. It outlines the problem we are trying to solve, our research approach and our journey in testing possible solutions with users.
+ * [Alpha Prototype](http://lac-poc.s3-website.eu-west-2.amazonaws.com/) - In this Alpha phase, we were really looking to test the technical setup and a lot of our effort has gone into developing as a browser-based application that is capable of working offline. With that in mind, we have only implemented two error identification as a test (Error 218 – URN is required and Error 178 – placement provider code is invalid). If you are currently using XMLs or don’t have the latest CSV files handy, we have a [header](./outputs/Header_Mock.xlsx) and an [episodes](./outputs/Episodes_Mock.xlsx) file with random values that you can test with.      
  * [Business Case](./outputs/Business_Case.xlsx) - This business case quantifies the benefits of implementing the solution we recommended.
  * [Prototype Design](https://www.figma.com/file/tPGzr4NebhFs84QJOqRXzU/Better-Children-in-Care-Application-Design?node-id=271%3A0) - This Figma design shows the user interface of the application. It was created to facilitate testing with local councils in determining the features and display that are helpful for users. 
- * [Prototype Specification](./outputs/Prototype_Specification.xlsx) - This specification document complements the design with more details on the features of the applications.  
-
+ * [Prototype Specification](./outputs/Prototype_Specification.xlsx) - This specification document complements the design with more details on the features of the applications. 
+ 
